@@ -51,7 +51,7 @@ A full-stack music streaming web application built with the MERN stack. Users ca
 - Shuffle & repeat modes
 - Progress bar with seek
 - Volume control
-- Sleep timer (5-60 minutes)
+- Sleep timer (5–60 minutes)
 - 10-band equalizer with presets
 - Lyrics display panel
 
@@ -88,38 +88,38 @@ A full-stack music streaming web application built with the MERN stack. Users ca
 ```
 Music-backend/
 ├── server/
-│   ├── config/db.js, cloudinary.js
-│   ├── middleware/authMiddleware.js, uploadMiddleware.js, validate.js, rateLimiter.js
-│   ├── models/User.js, Song.js, Album.js, Playlist.js, Comment.js, Notification.js, History.js, RefreshToken
-│   ├── controllers/authController.js, songController.js, albumController.js, playlistController.js, userController.js, commentController.js, notificationController.js, adminController.js, historyController.js, chartsController.js, externalController.js
-│   ├── routes/auth.js, songs.js, albums.js, playlists.js, users.js, comments.js, notifications.js, admin.js, history.js, charts.js, external.js
-│   ├── validations/authValidation.js, songValidation.js, albumValidation.js, playlistValidation.js, userValidation.js, commentValidation.js
-│   ├── utils/asyncHandler.js, sendEmail.js
+│   ├── config/              # db.js, cloudinary.js
+│   ├── middleware/          # authMiddleware.js, uploadMiddleware.js, validate.js, rateLimiter.js
+│   ├── models/              # User, Song, Album, Playlist, Comment, Notification, History, RefreshToken
+│   ├── controllers/         # auth, song, album, playlist, user, comment, notification, admin, history, charts, external
+│   ├── routes/               # auth, songs, albums, playlists, users, comments, notifications, admin, history, charts, external
+│   ├── validations/          # authValidation, songValidation, albumValidation, playlistValidation, userValidation, commentValidation
+│   ├── utils/                # asyncHandler.js, sendEmail.js
 │   ├── .env
 │   └── server.js
 
 Music-frontend/
 ├── src/
-│   ├── app/store.js
-│   ├── api/authApi.js, songsApi.js, albumsApi.js, playlistsApi.js, usersApi.js, commentsApi.js, notificationsApi.js, adminApi.js, historyApi.js, chartsApi.js, externalApi.js, baseQuery.js
-│   ├── features/auth/authSlice.js, player/playerSlice.js
-│   ├── context/ThemeContext.jsx
-│   ├── components/layout/Layout.jsx, Sidebar.jsx, Navbar.jsx
-│   ├── components/player/Player.jsx, PlayerControls.jsx, ProgressBar.jsx, VolumeControl.jsx, QueuePanel.jsx, SleepTimer.jsx, Equalizer.jsx
-│   ├── components/lyrics/LyricsPanel.jsx
-│   ├── components/cards/SongCard.jsx, AlbumCard.jsx, PlaylistCard.jsx
-│   ├── components/comments/CommentSection.jsx
-│   ├── components/ui/Button.jsx, Input.jsx, Modal.jsx, Spinner.jsx, CreatePlaylistModal.jsx, AddToPlaylistModal.jsx, ShareModal.jsx
-│   ├── components/guards/PrivateRoute.jsx, ArtistRoute.jsx, AdminRoute.jsx
-│   ├── pages/Home.jsx, Search.jsx, Library.jsx, AlbumPage.jsx, PlaylistPage.jsx, ArtistPage.jsx, Upload.jsx, Login.jsx, Register.jsx, ForgotPassword.jsx, ResetPassword.jsx, VerifyEmail.jsx, Feed.jsx, Charts.jsx, admin/AdminDashboard.jsx, admin/AdminUsers.jsx, admin/AdminSongs.jsx
-│   ├── hooks/usePlayer.js, useAuthRecovery.js
-│   ├── utils/formatTime.js, tokenStorage.js
+│   ├── app/                  # store.js
+│   ├── api/                  # authApi, songsApi, albumsApi, playlistsApi, usersApi, commentsApi, notificationsApi, adminApi, historyApi, chartsApi, externalApi, baseQuery
+│   ├── features/              # auth/authSlice.js, player/playerSlice.js
+│   ├── context/               # ThemeContext.jsx
+│   ├── components/
+│   │   ├── layout/            # Layout.jsx, Sidebar.jsx, Navbar.jsx
+│   │   ├── player/            # Player.jsx, PlayerControls.jsx, ProgressBar.jsx, VolumeControl.jsx, QueuePanel.jsx, SleepTimer.jsx, Equalizer.jsx
+│   │   ├── lyrics/             # LyricsPanel.jsx
+│   │   ├── cards/              # SongCard.jsx, AlbumCard.jsx, PlaylistCard.jsx
+│   │   ├── comments/           # CommentSection.jsx
+│   │   ├── ui/                 # Button, Input, Modal, Spinner, CreatePlaylistModal, AddToPlaylistModal, ShareModal
+│   │   └── guards/             # PrivateRoute.jsx, ArtistRoute.jsx, AdminRoute.jsx
+│   ├── pages/                  # Home, Search, Library, AlbumPage, PlaylistPage, ArtistPage, Upload, Login, Register, ForgotPassword, ResetPassword, VerifyEmail, Feed, Charts, admin/*
+│   ├── hooks/                   # usePlayer.js, useAuthRecovery.js
+│   ├── utils/                   # formatTime.js, tokenStorage.js
 │   ├── App.jsx, main.jsx, index.css
 │   └── .env
 ```
 
 ---
-
 
 ## Setup
 
@@ -166,28 +166,9 @@ VITE_API_URL=http://localhost:5000/api
 
 ---
 
-## Test Credentials
+## Build Order
 
-| User | Email | Password | Role |
-|------|-------|----------|------|
-| ArijitSingh | arijit@test.com | pass123 | artist |
-| Badshah | badshah@test.com | pass123 | artist |
-| EdSheeran | ed@test.com | pass123 | artist |
-| TheWeeknd | weeknd@test.com | pass123 | artist |
-| alice | alice@test.com | pass123 | user |
-| bob | bob@test.com | pass456 | user |
-
----
-
-## Database Seed
-
-48 songs across 9 genres (Hindi, English, Punjabi, Gujarati, Tamil, Marathi, Bhojpuri, Bengali, Marwadi), 8 albums, 16 playlists, 11 users.
-
----
-
-## Build Order (what was built)
-
-1. Backend API (28 endpoints) with JWT auth, Cloudinary uploads
+1. Backend API (28 endpoints) with JWT auth and Cloudinary uploads
 2. JOI validation, rate limiting, email (password reset + verification)
 3. Comments, notifications, activity feed, admin dashboard
 4. Song streaming (byte-range), iTunes integration, charts
@@ -196,3 +177,15 @@ VITE_API_URL=http://localhost:5000/api
 7. Audio player with Howler.js, queue, equalizer, sleep timer
 8. Search with artist filter, library with liked songs + history
 9. Share modal, download, collaborative playlist structure
+
+---
+
+## Screenshots
+
+<p align="center">
+  <img width="700" alt="Musify dashboard view 1" src="https://github.com/user-attachments/assets/9d8373ab-6eb9-41b9-bb60-f0f20ff4d04f" />
+</p>
+
+<p align="center">
+  <img width="700" alt="Musify dashboard view 2" src="https://github.com/user-attachments/assets/aa91a808-b88a-4b5b-af81-dc20f7e85827" />
+</p>
