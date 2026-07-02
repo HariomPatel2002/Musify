@@ -27,50 +27,27 @@ router.get('/:id', getSong);
 
 router.get('/:id/stream', async (req, res) => {
   try {
+    const mongoose = require('mongoose');
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ success: false, message: 'Invalid song ID format' });
+    }
+
     const Song = require('../models/Song');
     const song = await Song.findById(req.params.id);
     if (!song) return res.status(404).json({ success: false, message: 'Song not found' });
 
-    const range = req.headers.range;
-    const response = await axios.head(song.audioUrl);
-    const totalSize = parseInt(response.headers['content-length'], 10);
-
-    if (range) {
-      const parts = range.replace(/bytes=/, '').split('-');
-      const start = parseInt(parts[0], 10);
-      const end = parts[1] ? parseInt(parts[1], 10) : totalSize - 1;
-      const chunkSize = end - start + 1;
-
-      const audioResponse = await axios.get(song.audioUrl, {
-        headers: { Range: `bytes=${start}-${end}` },
-        responseType: 'stream',
-      });
-
-      res.writeHead(206, {
-        'Content-Range': `bytes ${start}-${end}/${totalSize}`,
-        'Accept-Ranges': 'bytes',
-        'Content-Length': chunkSize,
-        'Content-Type': 'audio/mpeg',
-      });
-
-      audioResponse.data.pipe(res);
-    } else {
-      const audioResponse = await axios.get(song.audioUrl, {
-        responseType: 'stream',
-      });
-
-      res.writeHead(200, {
-        'Content-Length': totalSize,
-        'Content-Type': 'audio/mpeg',
-      });
-
-      audioResponse.data.pipe(res);
+    if (!song.audioUrl) {
+      return res.status(404).json({ success: false, message: 'Audio URL not found for this song' });
     }
+
+    // Redirect the browser directly to the Cloudinary audio URL
+    return res.redirect(song.audioUrl);
   } catch (err) {
-    console.error('Error during audio streaming proxy:', err.message || err);
+    console.error('Error during audio streaming redirect:', err.message || err);
     res.status(500).json({ success: false, message: 'Stream error', details: err.message });
   }
 });
+
 
 router.post(
   '/',
