@@ -24,15 +24,13 @@ export default function usePlayer() {
     }
 
     soundRef.current = new Howl({
-      src: [currentSong._id ? `${import.meta.env.VITE_API_URL.replace('/api', '')}/api/songs/${currentSong._id}/stream` : currentSong.audioUrl],
+      src: [currentSong.audioUrl],
       html5: true,
       volume,
       onload: () => {
         dispatch(setDuration(soundRef.current.duration()));
       },
-      onplay: () => {
-        dispatch(togglePlay());
-      },
+      onplay: () => {},
       onpause: () => {},
       onend: () => {
         if (repeatMode === 'one') {
@@ -64,6 +62,20 @@ export default function usePlayer() {
       soundRef.current.pause();
     }
   }, [isPlaying]);
+
+  useEffect(() => {
+    let interval;
+    if (isPlaying && soundRef.current) {
+      interval = setInterval(() => {
+        if (soundRef.current && soundRef.current.playing()) {
+          dispatch(setProgress(soundRef.current.seek()));
+        }
+      }, 250);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isPlaying, currentSong]);
 
   useEffect(() => {
     if (!soundRef.current) return;
