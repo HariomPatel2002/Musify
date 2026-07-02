@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: musify-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build:
+      context: ./Music-backend
+      dockerfile: dockerfile
+    container_name: musify-backend
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    env_file:
+      - ./Music-backend/server/.env
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongodb:27017/Music
+
+  frontend:
+    build:
+      context: ./Music-frontend
+      dockerfile: dockerfile
+      args:
+        - VITE_API_URL=http://localhost:5000/api
+    container_name: musify-frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:
